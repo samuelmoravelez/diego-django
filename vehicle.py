@@ -54,7 +54,7 @@ class vehicle:
 
 class car(vehicle): #herencia 
     pass
-class motorbike(bike):
+class motorbike(vehicle):
     def desplegar_gato(self):
         print(f"el vehiculo {self.plate} ha desplegado el gato")
 

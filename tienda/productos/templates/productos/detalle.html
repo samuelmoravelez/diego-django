@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detalle del Producto</title>
+    <style>
+        :root {
+            --color-primario: #080b08;
+            --color-primario-oscuro: #0078b5;
+            --color-fondo: #110ad9;
+            --color-texto: #2d2d2d;
+            --color-borde: #98003a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem 1rem;
+            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+        }
+
+        .tarjeta {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid var(--color-borde);
+            box-shadow: 0 8px 24px rgba(194, 24, 91, 0.1);
+        }
+
+        h1 {
+            margin: 0 0 1.5rem;
+            padding-bottom: 0.75rem;
+            font-size: 1.6rem;
+            color: var(--color-primario);
+            border-bottom: 2px solid var(--color-borde);
+        }
+
+        ul {
+            list-style: none;
+            margin: 0 0 2rem;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.85rem 0;
+            border-bottom: 1px dashed var(--color-borde);
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        li strong {
+            color: var(--color-primario-oscuro);
+        }
+
+        .acciones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            border-radius: 999px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s, color 0.2s, transform 0.1s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primario {
+            background-color: var(--color-primario);
+            color: #fff;
+        }
+
+        .btn-primario:hover {
+            background-color: var(--color-primario-oscuro);
+        }
+
+        .btn-secundario {
+            background-color: transparent;
+            color: var(--color-primario);
+            border: 2px solid var(--color-primario);
+        }
+
+        .btn-secundario:hover {
+            background-color: var(--color-primario);
+            color: #fff;
+        }
+
+        @media (max-width: 480px) {
+            .tarjeta {
+                padding: 1.25rem;
+            }
+
+            li {
+                flex-direction: column;
+                gap: 0.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tarjeta">
+        <h1>Detalle del Producto: {{ producto.nombre }}</h1>
+        <ul>
+            <li><strong>Categoría:</strong> <span>{{ producto.categoria }}</span></li>
+            <li><strong>Precio:</strong> <span>${{ producto.precio }}</span></li>
+            <li><strong>Cantidad Disponible:</strong> <span>{{ producto.cantidad }}</span></li>
+        </ul>
+
+        <div class="acciones">
+            <a class="btn btn-primario" href="{% url 'producto_edit' producto.pk %}">Editar este producto</a>
+            <a class="btn btn-secundario" href="{% url 'producto_list' %}">Regresar al listado</a>
+        </div>
+    </div>
+</body>
+</html>

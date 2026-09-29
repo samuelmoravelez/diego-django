@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Listado de Productos</title>
+    <style>
+        :root {
+            --color-primario: #080b08;
+            --color-primario-oscuro: #0078b5;
+            --color-fondo: #110ad9;
+            --color-texto: #2d2d2d;
+            --color-borde: #98003a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem 1rem;
+            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+        }
+
+        .tarjeta {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 16px;
+            border-top: 6px solid var(--color-borde);
+            box-shadow: 0 10px 30px rgba(8, 11, 8, 0.35);
+        }
+
+        .encabezado {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.7rem;
+            color: var(--color-primario);
+        }
+
+        .btn-nuevo {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            border-radius: 999px;
+            background-color: var(--color-primario-oscuro);
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn-nuevo:hover {
+            background-color: var(--color-primario);
+            transform: translateY(-1px);
+        }
+
+        .tabla-contenedor {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 0.85rem 1rem;
+            background-color: var(--color-primario);
+            color: #fff;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid #e3e3e3;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f6f7fb;
+        }
+
+        tbody tr:hover {
+            background-color: #e6f3fa;
+        }
+
+        .acciones a {
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--color-primario-oscuro);
+        }
+
+        .acciones a:hover {
+            text-decoration: underline;
+        }
+
+        .acciones a.eliminar {
+            color: var(--color-borde);
+        }
+
+        .acciones .sep {
+            color: #b5b5b5;
+            margin: 0 0.25rem;
+        }
+
+        .vacio {
+            padding: 2rem 1rem;
+            text-align: center;
+            border: 2px dashed var(--color-borde);
+            border-radius: 12px;
+            color: var(--color-borde);
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .tarjeta {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tarjeta">
+        <div class="encabezado">
+            <h1>Listado de Productos</h1>
+            <a class="btn-nuevo" href="{% url 'producto_new' %}">Registrar producto</a>
+        </div>
+
+        {% if productos %}
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos %}
+                        <tr>
+                            <td>{{ producto.nombre }}</td>
+                            <td>{{ producto.categoria }}</td>
+                            <td>${{ producto.precio }}</td>
+                            <td>{{ producto.cantidad }}</td>
+                            <td class="acciones">
+                                <a href="{% url 'producto_detail' producto.pk %}">Detallar</a>
+                                <span class="sep">|</span>
+                                <a href="{% url 'producto_edit' producto.pk %}">Editar</a>
+                                <span class="sep">|</span>
+                                <a class="eliminar" href="{% url 'producto_delete' producto.pk %}">Eliminar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="vacio">Todavía no hay productos registrados.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
