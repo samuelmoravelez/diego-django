@@ -1,4 +1,4 @@
-from figura import Figura
+from geometria.figura import Figura
 
 
 class Cilindro(Figura):
