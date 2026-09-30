@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Eliminar Categoría</title>
+    <style>
+        :root {
+            --color-primario: #080b08;
+            --color-primario-oscuro: #0078b5;
+            --color-fondo: #110ad9;
+            --color-texto: #2d2d2d;
+            --color-borde: #98003a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+        }
+
+        .tarjeta {
+            width: 100%;
+            max-width: 520px;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 16px;
+            border-top: 6px solid var(--color-borde);
+            box-shadow: 0 10px 30px rgba(8, 11, 8, 0.35);
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0 0 1rem;
+            font-size: 1.7rem;
+            color: var(--color-primario);
+        }
+
+        p {
+            margin: 0 0 1.25rem;
+        }
+
+        p strong {
+            color: var(--color-borde);
+        }
+
+        .advertencia {
+            margin: 0 0 1.75rem;
+            padding: 0.85rem 1rem;
+            border-left: 4px solid var(--color-borde);
+            border-radius: 8px;
+            background-color: #fbeaf0;
+            color: var(--color-borde);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        form {
+            margin: 0 0 1rem;
+        }
+
+        button {
+            padding: 0.7rem 1.6rem;
+            border: none;
+            border-radius: 999px;
+            background-color: var(--color-borde);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: var(--color-primario);
+            transform: translateY(-1px);
+        }
+
+        .cancelar {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--color-primario-oscuro);
+            border-radius: 999px;
+            color: var(--color-primario-oscuro);
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .cancelar:hover {
+            background-color: var(--color-primario-oscuro);
+            color: #fff;
+        }
+
+        @media (max-width: 480px) {
+            .tarjeta {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tarjeta">
+        <h1>¿Estás seguro?</h1>
+        <p>¿Realmente deseas eliminar la categoría "<strong>{{ categoria.nombre }}</strong>"?</p>
+        <p class="advertencia">Esta acción también eliminará todos los productos vinculados a esta categoría.</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">Sí, eliminar</button>
+        </form>
+
+        <a class="cancelar" href="{% url 'categoria_list' %}">Cancelar y regresar al listado</a>
+    </div>
+</body>
+</html>

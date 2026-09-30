@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Listado de Productos</title>
+    <title>Listado de Categorías</title>
     <style>
         :root {
             --color-primario: #080b08;
@@ -51,20 +51,42 @@
             color: var(--color-primario);
         }
 
-        .btn-nuevo {
+        .botones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .btn {
             display: inline-block;
             padding: 0.6rem 1.2rem;
             border-radius: 999px;
-            background-color: var(--color-primario-oscuro);
-            color: #fff;
             font-weight: 600;
             text-decoration: none;
-            transition: background-color 0.2s, transform 0.1s;
+            transition: background-color 0.2s, color 0.2s, transform 0.1s;
         }
 
-        .btn-nuevo:hover {
-            background-color: var(--color-primario);
+        .btn:hover {
             transform: translateY(-1px);
+        }
+
+        .btn-primario {
+            background-color: var(--color-primario-oscuro);
+            color: #fff;
+        }
+
+        .btn-primario:hover {
+            background-color: var(--color-primario);
+        }
+
+        .btn-secundario {
+            border: 2px solid var(--color-primario-oscuro);
+            color: var(--color-primario-oscuro);
+        }
+
+        .btn-secundario:hover {
+            background-color: var(--color-primario-oscuro);
+            color: #fff;
         }
 
         .tabla-contenedor {
@@ -98,12 +120,22 @@
             border-bottom: 1px solid #e3e3e3;
         }
 
+        td:first-child {
+            width: 70px;
+            color: #6b6b6b;
+            font-weight: 600;
+        }
+
         tbody tr:nth-child(even) {
             background-color: #f6f7fb;
         }
 
         tbody tr:hover {
             background-color: #e6f3fa;
+        }
+
+        .acciones {
+            white-space: nowrap;
         }
 
         .acciones a {
@@ -144,36 +176,34 @@
 <body>
     <div class="tarjeta">
         <div class="encabezado">
-            <h1>Listado de Productos</h1>
-            <a class="btn-nuevo" href="{% url 'producto_new' %}">Registrar producto</a>
-            <a href="{% url 'categoria_list' %}">Gestionar Categorías</a>
+            <h1>Listado de Categorías</h1>
+            <div class="botones">
+                <a class="btn btn-primario" href="{% url 'categoria_new' %}">Registrar categoría</a>
+                <a class="btn btn-secundario" href="{% url 'producto_list' %}">Ir al listado de Productos</a>
+            </div>
         </div>
 
-        {% if productos %}
+        {% if categorias %}
             <div class="tabla-contenedor">
                 <table>
                     <thead>
                         <tr>
-                            <th>Producto</th>
-                            <th>Categoría</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for producto in productos %}
+                        {% for categoria in categorias %}
                         <tr>
-                            <td>{{ producto.nombre }}</td>
-                            <td>{{ producto.categoria }}</td>
-                            <td>${{ producto.precio }}</td>
-                            <td>{{ producto.cantidad }}</td>
+                            <td>{{ categoria.id }}</td>
+                            <td>{{ categoria.nombre }}</td>
+                            <td>{{ categoria.descripcion }}</td>
                             <td class="acciones">
-                                <a href="{% url 'producto_detail' producto.pk %}">Detallar</a>
+                                <a href="{% url 'categoria_edit' categoria.pk %}">Editar</a>
                                 <span class="sep">|</span>
-                                <a href="{% url 'producto_edit' producto.pk %}">Editar</a>
-                                <span class="sep">|</span>
-                                <a class="eliminar" href="{% url 'producto_delete' producto.pk %}">Eliminar</a>
+                                <a class="eliminar" href="{% url 'categoria_delete' categoria.pk %}">Eliminar</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -181,7 +211,7 @@
                 </table>
             </div>
         {% else %}
-            <p class="vacio">Todavía no hay productos registrados.</p>
+            <p class="vacio">Todavía no hay categorías registradas.</p>
         {% endif %}
     </div>
 </body>
