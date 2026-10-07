@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- eliminar.html | Vista: producto_delete | Contexto: producto | POST confirma borrado -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -102,13 +103,16 @@
 <body>
     <div class="tarjeta">
         <h1>¿Estás seguro?</h1>
+        <!-- Muestra el nombre antes de producto.delete() en la vista -->
         <p>¿Realmente deseas eliminar el producto "<strong>{{ producto.nombre }}</strong>"? Esta acción no se puede deshacer.</p>
 
+        <!-- POST confirma el borrado en producto_delete -->
         <form method="POST">
             {% csrf_token %}
             <button type="submit">Sí, eliminar</button>
         </form>
 
+        <!-- GET: abandona la confirmación sin eliminar -->
         <a class="cancelar" href="{% url 'producto_list' %}">Cancelar y regresar al listado</a>
     </div>
 </body>

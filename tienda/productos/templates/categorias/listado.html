@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- listado.html | Vista: categoria_list | Contexto: categorias (QuerySet Categoria) -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -174,6 +175,7 @@
     </style>
 </head>
 <body>
+    <!-- Vista Read del CRUD de categorías (categoria_list) -->
     <div class="tarjeta">
         <div class="encabezado">
             <h1>Listado de Categorías</h1>
@@ -196,10 +198,12 @@
                     </thead>
                     <tbody>
                         {% for categoria in categorias %}
+                        <!-- categoria.pk enlaza con categoria_edit y categoria_delete -->
                         <tr>
                             <td>{{ categoria.id }}</td>
                             <td>{{ categoria.nombre }}</td>
                             <td>{{ categoria.descripcion }}</td>
+                            <!-- Update y Delete por pk de cada categoría -->
                             <td class="acciones">
                                 <a href="{% url 'categoria_edit' categoria.pk %}">Editar</a>
                                 <span class="sep">|</span>
@@ -211,6 +215,7 @@
                 </table>
             </div>
         {% else %}
+            <!-- Sin registros en Categoria.objects.all() -->
             <p class="vacio">Todavía no hay categorías registradas.</p>
         {% endif %}
     </div>

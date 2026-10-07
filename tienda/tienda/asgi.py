@@ -11,6 +11,8 @@ import os
 
 from django.core.asgi import get_asgi_application
 
+# Variable de entorno que carga tienda.settings para aplicaciones ASGI
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tienda.settings')
 
+# Callable ASGI para servidores async o WebSockets
 application = get_asgi_application()

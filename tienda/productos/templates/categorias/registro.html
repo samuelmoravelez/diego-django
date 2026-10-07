@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- registro.html | Vistas: categoria_new, categoria_edit | Contexto: form, titulo -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -147,6 +148,7 @@
     <div class="tarjeta">
         <h1>{{ titulo }}</h1>
 
+        <!-- Alta o edición vía CategoriaForm (categoria_new / categoria_edit) -->
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}

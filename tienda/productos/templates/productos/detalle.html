@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- detalle.html | Vista: producto_detail | Contexto: producto (instancia Producto) -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -119,6 +120,7 @@
 </head>
 <body>
     <div class="tarjeta">
+        <!-- Instancia única obtenida con get_object_or_404 en producto_detail -->
         <h1>Detalle del Producto: {{ producto.nombre }}</h1>
         <ul>
             <li><strong>Categoría:</strong> <span>{{ producto.categoria }}</span></li>
@@ -126,6 +128,7 @@
             <li><strong>Cantidad Disponible:</strong> <span>{{ producto.cantidad }}</span></li>
         </ul>
 
+        <!-- Navegación hacia Update y regreso al Read (listado) -->
         <div class="acciones">
             <a class="btn btn-primario" href="{% url 'producto_edit' producto.pk %}">Editar este producto</a>
             <a class="btn btn-secundario" href="{% url 'producto_list' %}">Regresar al listado</a>

@@ -1,8 +1,10 @@
 <!DOCTYPE html>
+<!-- registro.html | Vistas: producto_new, producto_edit | Contexto: form, titulo -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- titulo distingue alta vs edición sin cambiar la plantilla -->
     <title>{{ titulo }}</title>
     <style>
         :root {
@@ -142,12 +144,15 @@
     <div class="tarjeta">
         <h1>{{ titulo }}</h1>
 
+        <!-- POST a producto_new o producto_edit según la vista que renderiza -->
         <form method="POST">
             {% csrf_token %}
+            <!-- Campos generados desde ProductoForm (incluye FK categoría y estado) -->
             {{ form.as_p }}
             <button type="submit">Guardar</button>
         </form>
 
+        <!-- Cancelar y volver al listado principal del CRUD de productos -->
         <a class="volver" href="{% url 'producto_list' %}">Regresar al listado</a>
     </div>
 </body>

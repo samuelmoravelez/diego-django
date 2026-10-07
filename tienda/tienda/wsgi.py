@@ -11,6 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
+# Variable de entorno que carga tienda.settings antes de atender peticiones
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tienda.settings')
 
+# Callable WSGI usado por servidores de producción (gunicorn, etc.)
 application = get_wsgi_application()

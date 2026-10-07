@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Asistencia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primario: #4f46e5;
+            --primario-oscuro: #4338ca;
+            --primario-suave: #eef2ff;
+            --texto: #1e293b;
+            --texto-suave: #64748b;
+            --borde: #e2e8f0;
+            --error: #dc2626;
+            --error-suave: #fef2f2;
+            --exito: #16a34a;
+            --exito-suave: #f0fdf4;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            color: var(--texto);
+            background:
+                radial-gradient(circle at 15% 20%, #c7d2fe 0, transparent 40%),
+                radial-gradient(circle at 85% 80%, #fbcfe8 0, transparent 40%),
+                #f8fafc;
+        }
+
+        .tarjeta {
+            width: 100%;
+            max-width: 440px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 20px 45px -15px rgba(79, 70, 229, 0.25),
+                        0 8px 16px -8px rgba(15, 23, 42, 0.08);
+            animation: entrada 0.5s ease both;
+        }
+
+        @keyframes entrada {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .encabezado { text-align: center; margin-bottom: 2rem; }
+
+        .icono {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primario), #7c3aed);
+            box-shadow: 0 10px 20px -6px rgba(79, 70, 229, 0.55);
+        }
+        .icono svg { width: 30px; height: 30px; stroke: #fff; }
+
+        .encabezado h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; }
+        .encabezado p  { margin-top: 0.35rem; font-size: 0.92rem; color: var(--texto-suave); }
+
+        /* Mensajes de Django (messages framework) */
+        .mensajes { list-style: none; margin-bottom: 1.25rem; }
+        .mensajes li {
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            background: var(--primario-suave);
+            color: var(--primario-oscuro);
+        }
+        .mensajes li.success { background: var(--exito-suave); color: var(--exito); }
+        .mensajes li.error   { background: var(--error-suave); color: var(--error); }
+
+        /* Campos */
+        .campo { margin-bottom: 1.25rem; }
+
+        .campo label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .campo input,
+        .campo select,
+        .campo textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            font: inherit;
+            font-size: 0.95rem;
+            color: var(--texto);
+            background: #f8fafc;
+            border: 1.5px solid var(--borde);
+            border-radius: 12px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+
+        .campo textarea { resize: vertical; min-height: 90px; }
+
+        .campo input:hover,
+        .campo select:hover,
+        .campo textarea:hover { border-color: #cbd5e1; }
+
+        .campo input:focus,
+        .campo select:focus,
+        .campo textarea:focus {
+            background: #fff;
+            border-color: var(--primario);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+        }
+
+        .campo input[type="checkbox"] {
+            width: auto;
+            accent-color: var(--primario);
+            transform: scale(1.15);
+            margin-right: 0.5rem;
+        }
+
+        .campo.con-error input,
+        .campo.con-error select,
+        .campo.con-error textarea {
+            border-color: var(--error);
+            background: var(--error-suave);
+        }
+
+        .ayuda { display: block; margin-top: 0.35rem; font-size: 0.8rem; color: var(--texto-suave); }
+
+        .errorlist {
+            list-style: none;
+            margin-top: 0.4rem;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--error);
+        }
+
+        /* Botón */
+        .boton {
+            width: 100%;
+            margin-top: 0.5rem;
+            padding: 0.9rem 1rem;
+            font: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primario), #7c3aed);
+            box-shadow: 0 10px 20px -8px rgba(79, 70, 229, 0.6);
+            transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+        }
+        .boton:hover  { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 14px 24px -8px rgba(79, 70, 229, 0.7); }
+        .boton:active { transform: translateY(0); }
+        .boton:focus-visible { outline: 3px solid rgba(79, 70, 229, 0.4); outline-offset: 3px; }
+
+        @media (max-width: 480px) {
+            .tarjeta { padding: 2rem 1.25rem; border-radius: 16px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="tarjeta">
+        <header class="encabezado">
+            <div class="icono">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 11l3 3L22 4"/>
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+            </div>
+            <h1>Registro de Asistencia</h1>
+            <p>Completa los datos para registrar tu asistencia</p>
+        </header>
+
+        {% if messages %}
+            <ul class="mensajes">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="POST" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="campo con-error">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            {% for campo in form %}
+                <div class="campo {% if campo.errors %}con-error{% endif %}">
+                    {{ campo.label_tag }}
+                    {{ campo }}
+                    {% if campo.help_text %}
+                        <small class="ayuda">{{ campo.help_text }}</small>
+                    {% endif %}
+                    {{ campo.errors }}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="boton">Registrar Asistencia</button>
+        </form>
+    </main>
+
+</body>
+</html>
