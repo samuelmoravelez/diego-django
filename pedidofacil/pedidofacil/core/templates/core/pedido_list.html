@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Pedidos - PedidoFácil{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Módulo de Pedidos</h2>
+    <a href="{% url 'pedido_create' %}" class="btn btn-success"><i class="bi bi-plus-lg me-1"></i>Nuevo Pedido</a>
+</div>
+
+<form method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Buscar por cliente o N° de pedido...">
+        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+    </div>
+</form>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>N° Pedido</th>
+                        <th>Cliente</th>
+                        <th>Descripción</th>
+                        <th>Valor Total</th>
+                        <th>Estado</th>
+                        <th>Registrado por</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in pedidos %}
+                    <tr>
+                        <td class="fw-bold">{{ p.numero_pedido }}</td>
+                        <td>{{ p.cliente }}</td>
+                        <td>{{ p.descripcion }}</td>
+                        <td>${{ p.valor_total }}</td>
+                        <td>
+                            {% if p.estado == 'confirmado' %}<span class="badge bg-success">Confirmado</span>
+                            {% elif p.estado == 'cancelado' %}<span class="badge bg-danger">Cancelado</span>
+                            {% else %}<span class="badge bg-warning text-dark">Pendiente</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ p.usuario.username }}</td>
+                        <td>{{ p.fecha_registro|date:"d/m/Y H:i" }}</td>
+                        <td>
+                            <a href="{% url 'pedido_update' p.pk %}" class="btn btn-sm btn-warning me-1"><i class="bi bi-pencil"></i></a>
+                            <a href="{% url 'pedido_delete' p.pk %}" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-4">No se encontraron pedidos registrados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

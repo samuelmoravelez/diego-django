@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} - PedidoFácil{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">{{ title }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" id="pedidoForm" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Número de Pedido</label>
+                            {{ form.numero_pedido }}
+                            {% if form.numero_pedido.errors %}<div class="text-danger small">{{ form.numero_pedido.errors.0 }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Cliente</label>
+                            {{ form.cliente }}
+                            {% if form.cliente.errors %}<div class="text-danger small">{{ form.cliente.errors.0 }}</div>{% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Descripción del Pedido</label>
+                        {{ form.descripcion }}
+                        {% if form.descripcion.errors %}<div class="text-danger small">{{ form.descripcion.errors.0 }}</div>{% endif %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Valor Total ($)</label>
+                            {{ form.valor_total }}
+                            {% if form.valor_total.errors %}<div class="text-danger small">{{ form.valor_total.errors.0 }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Estado</label>
+                            {{ form.estado }}
+                            {% if form.estado.errors %}<div class="text-danger small">{{ form.estado.errors.0 }}</div>{% endif %}
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'pedido_list' %}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-success">Guardar Pedido</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'core/js/pedido_validation.js' %}"></script>
+{% endblock %}
